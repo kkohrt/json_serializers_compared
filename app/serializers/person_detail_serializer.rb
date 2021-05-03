@@ -20,6 +20,7 @@
 #
 class PersonDetailSerializer < PersonSerializer
   include JSONAPI::Serializer
+  set_type :person
   attributes :annual_income,
              :birth_date,
              :email,

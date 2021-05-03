@@ -115,9 +115,9 @@ def json_run_benchmark( alba, blueprinter, jsonapi, ext)
       alba: alba,
       # alba_inline: alba_inline,
       # ams: ams,
-      blueprinter: blueprinter
+      blueprinter: blueprinter,
       # jbuilder: jbuilder, # different order
-      jsonapi: jsonapi, # nested JSON:API format
+      jsonapi: jsonapi # nested JSON:API format
       # jsonapi_same_format: jsonapi_same_format,
       # rails: rails,
       # representable: representable

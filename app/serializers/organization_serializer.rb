@@ -14,6 +14,7 @@
 #
 class OrganizationSerializer
   include JSONAPI::Serializer
+  set_type :organization
 
   attributes :id,
              :name_displayed,

@@ -13,6 +13,8 @@
 #  updated_at     :datetime         not null
 #
 class OrganizationDetailSerializer < OrganizationSerializer
+  set_type :organization
+
   attributes :description,
              :name_internal
 
