@@ -15,8 +15,9 @@ namespace :json do
 
     alba = Proc.new { AlbaPersonDetail.new(test_person).serialize }
     blueprinter = Proc.new { PersonBlueprint.render(test_person, view: :comments, root: :person) }
+    jsonapi = proc { PersonDetailSerializer.new(test_person).to_json }
 
-    json_run_benchmark(alba, blueprinter, 'person_last')
+    json_run_benchmark(alba, blueprinter, jsonapi, 'person_last')
 
 
     test_person = Person.includes(:organization, :addresses, :phones, comments: :commentable).first
@@ -26,8 +27,9 @@ namespace :json do
 
     alba = Proc.new { AlbaPersonDetail.new(test_person).serialize }
     blueprinter = Proc.new { PersonBlueprint.render(test_person, view: :comments, root: :person) }
+    jsonapi = proc { PersonDetailSerializer.new(test_person).to_json }
 
-    json_run_benchmark(alba, blueprinter, 'person_first')
+    json_run_benchmark(alba, blueprinter, jsonapi, 'person_first')
 
 
     test_org = Organization.includes(:people, :addresses, :phones, comments: :commentable).first
@@ -37,8 +39,9 @@ namespace :json do
 
     alba = Proc.new { AlbaOrganizationDetail.new(test_org).serialize }
     blueprinter = Proc.new { OrganizationBlueprint.render(test_org, view: :the_works, root: :organization) }
+    jsonapi = proc { OrganizationDetailSerializer.new(test_org).to_json }
 
-    json_run_benchmark(alba, blueprinter, 'org')
+    json_run_benchmark(alba, blueprinter, jsonapi, 'org')
 
   end
 
@@ -106,7 +109,7 @@ def json_sort_hash(misc_hash)
   end
 end
 
-def json_run_benchmark( alba, blueprinter, ext)
+def json_run_benchmark( alba, blueprinter, jsonapi, ext)
       puts "Serializer outputs ----------------------------------"
     {
       alba: alba,
@@ -114,7 +117,7 @@ def json_run_benchmark( alba, blueprinter, ext)
       # ams: ams,
       blueprinter: blueprinter
       # jbuilder: jbuilder, # different order
-      # jsonapi: jsonapi, # nested JSON:API format
+      jsonapi: jsonapi, # nested JSON:API format
       # jsonapi_same_format: jsonapi_same_format,
       # rails: rails,
       # representable: representable
@@ -134,7 +137,7 @@ def json_run_benchmark( alba, blueprinter, ext)
       # x.report(:ams) { time.times(&ams) }
       x.report(:blueprinter) { time.times(&blueprinter) }
       # x.report(:jbuilder) { time.times(&jbuilder) }
-      # x.report(:jsonapi) { time.times(&jsonapi) }
+      x.report(:jsonapi) { time.times(&jsonapi) }
       # x.report(:jsonapi_same_format) { time.times(&jsonapi_same_format) }
       # x.report(:rails) { time.times(&rails) }
       # x.report(:representable) { time.times(&representable) }
@@ -147,7 +150,7 @@ def json_run_benchmark( alba, blueprinter, ext)
       # x.report(:ams, &ams)
       x.report(:blueprinter, &blueprinter)
       # x.report(:jbuilder, &jbuilder)
-      # x.report(:jsonapi, &jsonapi)
+      x.report(:jsonapi, &jsonapi)
       # x.report(:jsonapi_same_format, &jsonapi_same_format)
       # x.report(:rails, &rails)
       # x.report(:representable, &representable)

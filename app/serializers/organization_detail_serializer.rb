@@ -12,9 +12,13 @@
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #
-class Organization < ApplicationRecord
-  has_many :people, dependent: :destroy
-  has_many :phones, as: :phonable, dependent: :destroy
-  has_many :addresses, as: :addressable, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+class OrganizationDetailSerializer < OrganizationSerializer
+  attributes :description,
+             :name_internal
+
+  has_many :people
+  has_many :phones
+  has_many :addresses
+  has_many :comments
+
 end

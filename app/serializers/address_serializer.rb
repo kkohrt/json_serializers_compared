@@ -20,10 +20,8 @@
 #
 #  index_addresses_on_addressable_type_and_addressable_id  (addressable_type,addressable_id)
 #
-class AlbaAddressDetail
-  include ::Alba::Resource
-
-  key :address
+class AddressSerializer
+  include JSONAPI::Serializer
 
   attributes :id,
              :city,
